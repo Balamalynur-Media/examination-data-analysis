@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<style>
+  label {
+    padding: 10px;
+  }
+</style>
+
+<div class="jumbotron" style="height: 220px;">
+  <div class="container">
+    <div style="border: dashed .5px grey;padding: 10px;">
+      <form id="myForm"
+            method="GET"
+            class="form-inline"
+            data-test="{{ request.GET.test }}"
+            data-subject="{{ request.GET.subject }}"
+            data-testid="{{ request.GET.testid }}"
+            >
+        <div class="form-group">
+          <label for="testSelect">TEST_TYPE</label>
+          {% render_field form.test title="test-type" class="form-control" %}
+    
+        </div>
+
+        <div class="form-group">
+          <label for="subjectSelect">SUBJECT</label>
+          {% render_field form.subject title="subject" class="form-control" %}
+        </div>
+
+        <div class="form-group">
+          <label for="testidSelect">TEST-ID</label>
+          {% render_field form.testid title="test-id" class="form-control" %}
+        </div>
+
+        <div class="form-group" style="padding-left: 20px;">
+          <button id="btnSubmit" class="btn btn-success" type="submit">ANALYZE</button>
+        </div>
+      </form>
+      
+    </div>
+    <div>
+    <p><h4 style="border: dashed .5px grey;padding: 10px;">NATIONAL AVERAGE : {{marks}}</h4></p>
+  </div>
+</div>
+</div>
+
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col">
+      <table class="table" style=" border: 1px solid black;">
+        <thead>
+          <tr>
+          <th>BRANCH</th>
+          <th>AVERAGE</th>
+          <th>PERCENTILE</th>
+        </tr>
+        </thead>
+        <tbody>
+              {% for u,m,b in ziplist %}
+            <tr>
+              <td>{{u}}</td>
+              <td>{{m}}</td>
+              <td>{{b}}</td>
+              {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<hr>
+<hr>
+
+</div> 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<canvas id="myChart" width="1000" height="400"></canvas>
+<script>
+new Chart(document.getElementById("myChart").getContext('2d'), {
+  
+    type: 'horizontalBar',
+    data: {
+      labels: ["{% for u in up %}{{u}}",
+                          "{% endfor %}"],
+      datasets: [
+        {
+          label: "AVERAGE ANALYSIS",
+          data:["{% for m in mk %}{{m}}",
+                          "{% endfor %}"],
+          backgroundColor: [
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.500)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.500)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',],
+        }],
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'AVERAGE ANALYSIS'
+      }
+    },
+
+});
+</script>
+<hr>
+<hr>
+<canvas id="myC" width="1000" height="400"></canvas>
+<script>
+new Chart(document.getElementById("myC"), {
+    type: 'horizontalBar',
+    data: {
+      labels: ["{% for u in up %}{{u}}",
+                          "{% endfor %}"],
+      datasets: [
+        {
+          label: "PERCENTILE ANALYSIS",
+          backgroundColor: [
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.500)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.500)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',],
+          data:["{% for b in bper %}{{b}}",
+                          "{% endfor %}"],
+        }],
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'PERCENTILE ANALYSIS'
+      }
+    }
+});
+</script>
+
+<hr>
+<hr>
+<canvas id="myCha" width="1000" height="400"></canvas>
+<script>
+new Chart(document.getElementById("myCha"), {
+    type: 'polarArea',
+    data: {
+      labels: ["{% for u in up %}{{u}}",
+                          "{% endfor %}"],
+      datasets: [
+        {
+          label: "PERCENTILE ANALYSIS",
+          backgroundColor: [
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.500)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.500)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',
+                'rgba(75, 192, 192, 0.500)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.500)',
+                'rgba(255, 99, 132, 0.500)',
+                'rgba(54, 162, 235, 0.500)',
+                'rgba(255, 206, 86, 0.500)',],
+          data: ["{% for b in bper %}{{b}}",
+                          "{% endfor %}"],
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'PERCENTILE ANALYSIS'
+      }
+    }
+});
+</script>
+
+
+<hr>
+<hr>
+<div class="container"> 
+   <div class="row">
+      <div class="col">
+        <table class="table" id="tbexpo">
+          <thead>
+            <tr>
+              <th>ERP</th>
+              <th>NAME</th>
+              <th>BRANCH</th>
+              <th>GRADE</th>
+              <th>SECTION</th>
+              <th>SUBJECT</th>
+              <th>TESTID</th>
+              <th>MARK</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+            <tr>
+              <td>{{ student.student.erp }}</td>
+              <td>{{ student.student.name }}</td>
+              <td>{{ student.student.grade_id.branch_id }}</td>
+              <td>{{ student.student.grade_id.grade }}</td>
+              <td>{{ student.student.grade_id.section_id }}</td>
+              <th>{{student.test.sub}}</th>
+              <th>{{student.test}}</th>
+              <th>{{student.mark}}</th>
+  
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<hr>
+
+{% endblock content %}
+
+{% block js %}
+  <script>
+    $(document).ready(function() {
+      let test = $('#myForm').data('test')
+      let subject = $('#myForm').data('subject')
+      let testid = $('#myForm').data('testid')
+      if (test) {
+        $('#id_test option[value='+test+']').attr('selected', 'selected');
+      }
+      if (subject) {
+        $('#id_subject option[value='+subject+']').attr('selected', 'selected');
+      }
+      if (testid) {
+        $('#id_testid option[value='+testid+']').attr('selected', 'selected');
+      }
+    });
+
+    $('#id_test').on('change', function() {
+      $('#btnSubmit').click();
+    });
+
+    $('#id_subject').on('change', function() {
+      $('#btnSubmit').click();
+    });
+  </script>
+  
+{% endblock js %}

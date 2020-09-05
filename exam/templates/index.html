@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="container">
+    <H5 style="padding-top: 2%;">STUDENT DATABASE</H5>
+    <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
+  </div>
+  <hr>
+</div>
+
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-12">
+      <h2></h2>
+      <table id="myTable1" class="table">
+        <thead>
+          <tr>
+            <th>ERP</th>
+            <th>NAME</th>
+            <th>BRANCH</th>
+            <th>GRADE</th>
+            <th>SECTION</th>
+          
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in student_list %}
+            <tr>
+              <td>{{ student.erp }}</td>
+              <td>{{ student.name }}</td>
+              <td>{{ student.grade_id.branch_id }}</td>
+              <td>{{ student.grade_id.grade }}</td>
+              <td>{{ student.grade_id.section_id }}</td>
+          
+
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+
+</div> <!-- /container -->
+
+{% endblock content %}
+
+{% block js %}
+
+<script src="{% static 'js/data.js' %}"></script>
+
+{% endblock js %}

@@ -1,0 +1,18 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Bairro</th>
+      <th>Cidade</th>
+      <th>UF</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for testid in testids %}
+      <tr>
+        <td>{{ testid.testid }}</td>
+        <td>{{ testid.subject }}</td>
+        <td>{{ testid.subject.tname }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

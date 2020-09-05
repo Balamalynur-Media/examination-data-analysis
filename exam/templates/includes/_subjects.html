@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Cidade</th>
+      <th>UF</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subject in subjects %}
+      <tr>
+        <td>
+          <a href="" 
+             class="city" 
+             data-url="{% url 'exam:testids_ajax' %}?subject={{ subject.pk }}" 
+             data-uf="{{ subject.pk }}"
+             >{{ subject.subject }}</a>
+        </td>
+        <td>{{ subject.tname }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

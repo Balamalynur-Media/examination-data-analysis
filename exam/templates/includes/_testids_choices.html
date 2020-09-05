@@ -1,0 +1,4 @@
+<option value="">---------------------</option>
+{% for testid in testids %}
+  <option value="{{ testid.pk }}">{{ testid.testid }}</option>
+{% endfor %}
